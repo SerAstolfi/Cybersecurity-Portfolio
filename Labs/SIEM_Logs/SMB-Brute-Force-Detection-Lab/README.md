@@ -34,7 +34,7 @@ The environment was hosted on a Type 2 Hypervisor (VirtualBox) with a dedicated 
 
 > **Network Configuration:** The "HomeLab" NAT Network ensures strict isolation while allowing communication between the Attacker and the Target Domain.
 >
-> ![Image: 1. Network configuration ensuring isolated communication](./screenshots/1.network-config.png)
+> ![Image: 1. Network configuration ensuring isolated communication](./screenshots/01.network-config.png)
 
 ---
 
@@ -42,8 +42,8 @@ The environment was hosted on a Type 2 Hypervisor (VirtualBox) with a dedicated 
 
 ### 1. Active Directory Deployment
 Configured a new Forest `serhomelab.local`. Structured Organizational Units (OUs) to segregate `IT_Admins`, `CorpUsers`, and `Service_Accounts` for tiered administration simulation.
-> *[Insert Image: 2. Deployment of Active Directory Forest]*
-> *[Insert Image: 5. Active Directory Structure designed with segregated OUs]*
+> ![Image: 2. Deployment of Active Directory Forest](./screenshots/02.deployment-AD-forest.png)
+> ![Image: 5. Active Directory Structure designed with segregated OUs](./screenshots/05.AD-structure.png)
 
 ### 2. Telemetry Pipeline (Sysmon + Splunk)
 Standard Windows logging is often insufficient for advanced threat hunting. I enhanced visibility by:
@@ -51,9 +51,9 @@ Standard Windows logging is often insufficient for advanced threat hunting. I en
 * Configuring **Group Policy Objects (GPO)** to enable PowerShell Script Block Logging and Advanced Audit Policies.
 * Installing **Splunk Universal Forwarder** on the Windows Endpoint to ship logs to the Splunk Indexer.
 
-> *[Insert Image: 7. Implementation of Sysmon]*
-> *[Insert Image: 6. Enabling Advanced Audit Policies]*
-> *[Insert Image: 8. Splunk Universal Forwarder successfully shipping telemetry]*
+> ![Image: 7. Implementation of Sysmon](./screenshots/07.implementation-Sysmon.png)
+> ![Image: 6. Enabling Advanced Audit Policies](./screenshots/06.enabling-AD-advanced-policies.png)
+> ![Image: 8. Splunk Universal Forwarder successfully shipping telemetry](./screenshots/08.Splunk-forwarder-working.png)
 
 ---
 
@@ -64,7 +64,7 @@ Standard Windows logging is often insufficient for advanced threat hunting. I en
 **Technique:** Password Spraying / Brute Force (MITRE T1110.003)
 
 I verified network connectivity between the Kali machine (`10.0.10.30`) and the Target (`10.0.10.20`).
-> *[Insert Image: 4. Verifying network connectivity]*
+> ![Image: 4. Verifying network connectivity](./screenshots/04.verifying-connectivity.png)
 
 Executed the attack against the user `mrossi` using a custom wordlist:
 ```bash
@@ -73,7 +73,7 @@ crackmapexec smb 10.0.10.20 -u mrossi -p passlist.txt
 
 The tool generated rapid authentication attempts, resulting in multiple `STATUS_LOGON_FAILURE` responses.
 
-> *[Insert Image: 9. Executing SMB Password Spraying attack using CrackMapExec to bypass legacy protocol restrictions and generate authentication failures.png]*
+> ![Image: 9. Executing SMB Password Spraying attack using CrackMapExec to bypass legacy protocol restrictions and generate authentication failures.png](./screenshots/09.SMB-password-spraying.png)
 
 ---
 
@@ -88,7 +88,7 @@ index=main EventCode=4625
 | stats count by Account_Name, Source_Network_Address, Workstation_Name
 ```
 
-> *[Insert Image: 10. Identification of a Brute Force attack attempting to compromise user 'mrossi'. Splunk query correlates 20+ failed login attempts (Event 4625) originating from a single external IP.png]*
+> ![Image: 10. Identification of a Brute Force attack attempting to compromise user 'mrossi'. Splunk query correlates 20+ failed login attempts (Event 4625) originating from a single external IP.png](./screenshots/10.SPL-identifty-attack.png)
 
 ### 2. Alert Logic Creation
 Than I queried `index=main` for Windows Event ID **4625** and to automate detection, I created a **Threshold-Based Alert** to filter out occasional user errors while capturing sustained attacks.
@@ -98,12 +98,12 @@ Than I queried `index=main` for Windows Event ID **4625** and to automate detect
 * **Severity:** High.
 * **Action:** Log to the "Triggered Alerts" dashboard (Simulating a SOC Ticket creation).
 
-> *[Insert Image: 11. Engineering a Detection Rule with threshold-based logic to automatically flag potential brute force attempts in real-time.png]*
+> ![Image: 11. Engineering a Detection Rule with threshold-based logic to automatically flag potential brute force attempts in real-time.png](./screenshots/11.alert-setting.png)
 
 ### 3. Validation
 To validate the engineering process, I re-executed the `crackmapexec` attack from the Kali machine. The detection logic successfully caught the anomaly in real-time, populating the SOC dashboard with the alert.
 
-> *[Insert Image: 12. Validating the detection pipeline The simulated attack successfully triggered the high-severity alert within the SOC dashboard.png]*
+> ![Image: 12. Validating the detection pipeline The simulated attack successfully triggered the high-severity alert within the SOC dashboard.png](./screenshots/12.alert-working.png)
 
 ---
 
