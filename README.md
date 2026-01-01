@@ -24,7 +24,7 @@ My goal is to demonstrate practical competency in identifying, analyzing, and mi
 
 This portfolio is organized into specific operational domains. Click on the folders to view detailed write-ups and screenshots.
 
-### 🔹 [Network Traffic Analysis](./Labs/Network_Analysis)
+### 🔹 [Network Traffic Analysis](./Labs/Network_Traffic_Analysis)
 *Deep dive into PCAP files to identify malware communication, data exfiltration, and C2 channels.*
 
 ### 🔹 [SIEM & Log Analysis](./Labs/SIEM_Logs)
