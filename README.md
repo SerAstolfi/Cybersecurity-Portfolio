@@ -29,7 +29,7 @@ This portfolio is organized into specific operational domains. Click on the fold
 
 ### 🔹 [SIEM & Log Analysis](./Labs/SIEM_Logs)
 *Detection engineering exercises and log investigation scenarios.*
-* **Highlighted Project:** SSH Brute Force detection via Splunk.
+* **Highlighted Project:** [SMB Brute Force Detection Lab via Splunk](./Labs/SIEM_Logs/SMB-Brute-Force-Detection-Lab)
 
 ### 🔹 [Scripting & Automation](./Scripts)
 *Custom tools developed to automate analysis and data extraction.*
