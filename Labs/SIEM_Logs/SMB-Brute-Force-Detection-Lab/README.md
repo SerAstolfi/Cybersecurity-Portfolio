@@ -34,7 +34,7 @@ The environment was hosted on a Type 2 Hypervisor (VirtualBox) with a dedicated 
 
 > **Network Configuration:** The "HomeLab" NAT Network ensures strict isolation while allowing communication between the Attacker and the Target Domain.
 >
-> ![Network Topology](/screenshots/01.network-config.png)
+> ![Network Topology](./screenshots/01.network-config.png)
 
 ---
 
@@ -42,8 +42,8 @@ The environment was hosted on a Type 2 Hypervisor (VirtualBox) with a dedicated 
 
 ### 1. Active Directory Deployment
 Configured a new Forest `serhomelab.local`. Structured Organizational Units (OUs) to segregate `IT_Admins`, `CorpUsers`, and `Service_Accounts` for tiered administration simulation.
-> ![Deployment Active Directory Forest](/screenshots/02.deployment-AD-forest.png)
-> ![Active Directory Structure with Segregated OUs](/screenshots/05.AD-structure.png)
+> ![Deployment Active Directory Forest](./screenshots/02.deployment-AD-forest.png)
+> ![Active Directory Structure with Segregated OUs](./screenshots/05.AD-structure.png)
 
 ### 2. Telemetry Pipeline (Sysmon + Splunk)
 Standard Windows logging is often insufficient for advanced threat hunting. I enhanced visibility by:
@@ -51,9 +51,9 @@ Standard Windows logging is often insufficient for advanced threat hunting. I en
 * Configuring **Group Policy Objects (GPO)** to enable PowerShell Script Block Logging and Advanced Audit Policies.
 * Installing **Splunk Universal Forwarder** on the Windows Endpoint to ship logs to the Splunk Indexer.
 
-> ![Implementation of Sysmon](/screenshots/07.implementation-Sysmon.png)
-> ![Enabling Advanced Audit Policies](/screenshots/06.enabling-AD-advanced-policies.png)
-> ![Splunk Universal Forwarder Shipping Telemetry](/screenshots/08.Splunk-forwarder-working.png)
+> ![Implementation of Sysmon](./screenshots/07.implementation-Sysmon.png)
+> ![Enabling Advanced Audit Policies](./screenshots/06.enabling-AD-advanced-policies.png)
+> ![Splunk Universal Forwarder Shipping Telemetry](./screenshots/08.Splunk-forwarder-working.png)
 
 ---
 
@@ -64,7 +64,7 @@ Standard Windows logging is often insufficient for advanced threat hunting. I en
 **Technique:** Password Spraying / Brute Force (MITRE T1110.003)
 
 I verified network connectivity between the Kali machine (`10.0.10.30`) and the Target (`10.0.10.20`).
-> ![Verifying Network Connectivity](/screenshots/04.verifying-connectivity.png)
+> ![Verifying Network Connectivity](./screenshots/04.verifying-connectivity.png)
 
 Executed the attack against the user `mrossi` using a custom wordlist:
 ```bash
@@ -73,7 +73,7 @@ crackmapexec smb 10.0.10.20 -u mrossi -p passlist.txt
 
 The tool generated rapid authentication attempts, resulting in multiple `STATUS_LOGON_FAILURE` responses.
 
-> ![SMB Password Spraying Attack with CrackMapExec](/screenshots/09.SMB-password-spraying.png)
+> ![SMB Password Spraying Attack with CrackMapExec](./screenshots/09.SMB-password-spraying.png)
 
 ---
 
@@ -88,7 +88,7 @@ index=main EventCode=4625
 | stats count by Account_Name, Source_Network_Address, Workstation_Name
 ```
 
-> ![Splunk Search Query](/screenshots/10.SPL-identifty-attack.png)
+> ![Splunk Search Query](./screenshots/10.SPL-identifty-attack.png)
 
 ### 2. Alert Logic Creation
 Than I queried `index=main` for Windows Event ID **4625** and to automate detection, I created a **Threshold-Based Alert** to filter out occasional user errors while capturing sustained attacks.
@@ -98,12 +98,12 @@ Than I queried `index=main` for Windows Event ID **4625** and to automate detect
 * **Severity:** High.
 * **Action:** Log to the "Triggered Alerts" dashboard (Simulating a SOC Ticket creation).
 
-> ![Engineering Detection Rule](/screenshots/11.alert-setting.png)
+> ![Engineering Detection Rule](./screenshots/11.alert-setting.png)
 
 ### 3. Validation
 To validate the engineering process, I re-executed the `crackmapexec` attack from the Kali machine. The detection logic successfully caught the anomaly in real-time, populating the SOC dashboard with the alert.
 
-> ![Validating Detection Alert](/screenshots/12.alert-working.png)
+> ![Validating Detection Alert](./screenshots/12.alert-working.png)
 
 ---
 
