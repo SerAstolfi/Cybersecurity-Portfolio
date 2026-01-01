@@ -14,8 +14,8 @@ My goal is to demonstrate practical competency in identifying, analyzing, and mi
 
 | Category | Tools & Technologies |
 | :--- | :--- |
-| **Network Analysis** | Wireshark, TCPdump |
-| **SIEM & Logs** | Splunk (Basics), ELK Stack, Sysmon |
+| **Network Analysis** | Wireshark, TCPdump, nmap |
+| **SIEM & Logs** | Splunk (Basics), Sysmon |
 | **Endpoint Security** | Windows Internals, Linux Hardening, basic EDR analysis |
 | **Scripting** | Python (Data parsing), Bash, PowerShell |
 | **Frameworks** | MITRE ATT&CK, NIST CSF, Cyber Kill Chain |
