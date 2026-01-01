@@ -34,7 +34,7 @@ The environment was hosted on a Type 2 Hypervisor (VirtualBox) with a dedicated 
 
 > **Network Configuration:** The "HomeLab" NAT Network ensures strict isolation while allowing communication between the Attacker and the Target Domain.
 >
-> *[Image: 1. Network configuration ensuring isolated communication](./screenshots/network-config.png)
+> ![Image: 1. Network configuration ensuring isolated communication](./screenshots/1.network-config.png)
 
 ---
 
