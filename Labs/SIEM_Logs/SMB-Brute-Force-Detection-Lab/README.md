@@ -23,7 +23,7 @@ The environment was hosted on a Type 2 Hypervisor (VirtualBox) with a dedicated 
 ### Host Machine
 * **Processor:** AMD Ryzen 9 5900HX (3.30 GHz)
 * **RAM:** 32 GB
-* **OS:** Windows 11 Pro
+* **Hypervisor:** VirtualBox
 
 ### Virtual Machines
 | Role | OS | Resources | Function |
