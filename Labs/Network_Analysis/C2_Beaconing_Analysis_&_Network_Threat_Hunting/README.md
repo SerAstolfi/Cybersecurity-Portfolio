@@ -73,7 +73,7 @@ To generate specific traffic artifacts, I issued the `sleep 5` command to modify
 ## Phase 3: Network Traffic Analysis (Forensics)
 ### 1. Beaconing Detection
 Using Wireshark, I captured the traffic on the Ethernet interface. Filtering for the C2 server's IP (`ip.addr == 10.0.10.3`), I observed a distinct, rhythmic pattern of communication.
-The captured packets show repetitive HTTP GET requests occurring at rapid intervals (ranging between ~1.8s and 2.5s). Despite the attempted configuration change, the traffic exhibits a 'high-frequency' heartbeat, typical of an interactive C2 session or a configuration reset.
+The captured packets show repetitive HTTP GET requests occurring at rapid intervals (ranging between ~1.7s and 3.0s). Despite the attempted configuration change, the traffic exhibits a 'high-frequency' heartbeat, typical of an interactive C2 session or a configuration reset.
 
 > ![Beaconing Wireshark](./screenshots/6.beaconing_malware.png)
 
