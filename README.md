@@ -26,6 +26,7 @@ This portfolio is organized into specific operational domains. Click on the fold
 
 ### 🔹 [Network Traffic Analysis](./Labs/Network_Analysis)
 *Deep dive into PCAP files to identify malware communication, data exfiltration, and C2 channels.*
+* **Highlighted Project:** [C2 Beaconing Analysis & Network Threat Hunting via Wireshark](./Labs/Network_Analysis/C2_Beaconing_Analysis_&_Network_Threat_Hunting)
 
 ### 🔹 [SIEM & Log Analysis](./Labs/SIEM_Logs)
 *Detection engineering exercises and log investigation scenarios.*
