@@ -47,7 +47,7 @@ To simulate the payload delivery, I spun up a temporary Python HTTP server on po
 python3 -m http.server 8000
 ```
 
-*[INSERT IMAGE: 2-python_server_downloading_malware.png]*
+> ![Downloading Malware](./screenshots/2.python_server_downloading_malware.png)
 
 ---
 
@@ -58,17 +58,17 @@ On the attacker machine, I configured the Metasploit `multi/handler` to listen f
 * **LPORT:** 8080
 * **Protocol:** HTTP (chosen over HTTPS to allow clear-text traffic analysis for educational purposes).
 
-*[INSERT IMAGE: 3-C2_listener_on_port_8080.png]*
+> ![Listener](./screenshots/3.C2_listener_on_port_8080.png)
 
 ### 2. Execution & Session Establishment
 Upon execution of `update_chrome.exe` on the victim machine, a Meterpreter session was successfully established. The logs confirmed the redirection of a **stageless connection**, indicating the full payload was embedded in the executable.
 
-*[INSERT IMAGE: 4.C2_connection_completed.png]*
+> ![C2 Connection](./screenshots/4.C2_connection_completed.png)
 
 ### 3. Modifying Beaconing Interval
 To generate specific traffic artifacts, I issued the `sleep 5` command to modify the beaconing interval. However, as seen in the logs, the initial session was terminated and immediately re-established (Session 2), which likely reset the configuration to the default connection speed.
 
-*[INSERT IMAGE: 5.sleep_malware.png]*
+> ![Malware Sleep](./screenshots/5.sleep_malware.png)
 
 **Note:** While `sleep 5` was executed, the immediate session restart (Session 1 closed -> Session 2 opened) suggests the payload might have crashed or re-initialized, reverting the sleep timer to its default interactive value. This highlights the importance of verifying configuration changes in the actual traffic logs (Wireshark) rather than trusting the C2 console output blindly.
 
@@ -79,7 +79,7 @@ To generate specific traffic artifacts, I issued the `sleep 5` command to modify
 Using Wireshark, I captured the traffic on the Ethernet interface. Filtering for the C2 server's IP (`ip.addr == 10.0.10.3`), I observed a distinct, rhythmic pattern of communication.
 The captured packets show repetitive HTTP GET requests occurring at rapid intervals (ranging between ~1.8s and 2.5s). Despite the attempted configuration change, the traffic exhibits a 'high-frequency' heartbeat, typical of an interactive C2 session or a configuration reset.
 
-*[INSERT IMAGE: 6.beaconing_malware.png]*
+> ![Beaconing Wireshark](./screenshots/6.beaconing_malware.png)
 
 ### 2. HTTP Stream & Header Analysis
 Followed the TCP Stream to inspect the payload content.
@@ -88,7 +88,7 @@ Followed the TCP Stream to inspect the payload content.
 * **User-Agent:** `Mozilla/5.0 ... (KHTML, like Gecko) Chrome/131.0.0.0...` (The malware attempts to blend in, but the context of the traffic reveals its nature).
 * **Server Response:** The C2 server identified itself as "Apache" but returned `Content-Type: application/octet-stream` with an empty body, typical of a C2 heartbeat acknowledgement.
 
-*[INSERT IMAGE: 7.weird_http_stream.png]*
+> ![Weird HTTP Stream](./screenshots/7.weird_http_stream.png)
 
 ---
 
