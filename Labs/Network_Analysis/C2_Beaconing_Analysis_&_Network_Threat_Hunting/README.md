@@ -64,16 +64,18 @@ Upon execution of `update_chrome.exe` on the victim machine, a Meterpreter sessi
 *[INSERT IMAGE: 4.C2_connection_completed.png]*
 
 ### 3. Modifying Beaconing Interval
-To generate specific traffic artifacts, I issued the `sleep 5` command within the Meterpreter session. This instructed the malware to check in (beacon) with the C2 server exactly every 5 seconds.
+To generate specific traffic artifacts, I issued the `sleep 5` command to modify the beaconing interval. However, as seen in the logs, the initial session was terminated and immediately re-established (Session 2), which likely reset the configuration to the default connection speed.
 
 *[INSERT IMAGE: 5.sleep_malware.png]*
+
+**Note:** While `sleep 5` was executed, the immediate session restart (Session 1 closed -> Session 2 opened) suggests the payload might have crashed or re-initialized, reverting the sleep timer to its default interactive value. This highlights the importance of verifying configuration changes in the actual traffic logs (Wireshark) rather than trusting the C2 console output blindly.
 
 ---
 
 ## Phase 3: Network Traffic Analysis (Forensics)
 ### 1. Beaconing Detection
 Using Wireshark, I captured the traffic on the Ethernet interface. Filtering for the C2 server's IP (`ip.addr == 10.0.10.3`), I observed a distinct, rhythmic pattern of communication.
-The captured packets show repetitive HTTP GET requests occurring at regular intervals (~5 seconds), consistent with the `sleep 5` command issued earlier. This "Heartbeat" is a primary indicator of automated malware activity.
+The captured packets show repetitive HTTP GET requests occurring at rapid intervals (ranging between ~1.8s and 2.5s). Despite the attempted configuration change, the traffic exhibits a 'high-frequency' heartbeat, typical of an interactive C2 session or a configuration reset.
 
 *[INSERT IMAGE: 6.beaconing_malware.png]*
 
@@ -98,6 +100,6 @@ Followed the TCP Stream to inspect the payload content.
 | **Defense Evasion** | T1036.005 | Masquerading: Match Legitimate Name or Location | Naming the malware `update_chrome.exe` to appear benign. |
 
 ## Key Takeaways
-* **Beaconing Identification:** Automated C2 traffic creates predictable patterns (Jitter = 0 in this lab). Identifying these rigid time deltas in packet captures is a fundamental method for detecting dormant malware.
+* **Beaconing & Jitter:** The captured traffic showed intervals fluctuating between 1.8s and 2.5s. In a real-world scenario, this unintentional irregularity acts similarly to "Jitter," making detection based purely on fixed time deltas more challenging. It reinforces the need to analyze the content (Headers/Size) alongside the timing.
 * **Header Anomalies:** Even when using standard ports (80/8080), the *content* of the HTTP headers (weird URIs, mismatching Content-Types) often betrays the presence of a C2 channel.
 * **Importance of SSL/TLS:** This analysis was possible because the payload used HTTP. In a real-world scenario, attackers use HTTPS (Port 443), requiring SSL inspection or JA3 fingerprinting to detect.
