@@ -1,6 +1,8 @@
 # C2 Beaconing Analysis & Network Threat Hunting
 
-![Status](https://img.shields.io/badge/Status-Completed-success) ![Platform](https://img.shields.io/badge/Platform-VirtualBox-blue) ![Tools](https://img.shields.io/badge/Tools-Metasploit%20|%20Wireshark%20|%20Python-orange)
+![Status](https://img.shields.io/badge/Status-Completed-success)
+![Platform](https://img.shields.io/badge/Platform-VirtualBox-blue)
+![Tools](https://img.shields.io/badge/Tools-Metasploit%20|%20Wireshark%20|%20Python-orange)
 
 ## Executive Summary
 This project simulates the deployment of a Command and Control (C2) infrastructure to analyze the network behavior of a reverse shell payload.
