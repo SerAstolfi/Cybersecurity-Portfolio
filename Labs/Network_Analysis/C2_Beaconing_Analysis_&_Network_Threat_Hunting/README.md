@@ -98,6 +98,6 @@ Followed the TCP Stream to inspect the payload content.
 | **Defense Evasion** | T1036.005 | Masquerading: Match Legitimate Name or Location | Naming the malware `update_chrome.exe` to appear benign. |
 
 ## Key Takeaways
-* **Beaconing & Jitter:** The captured traffic showed intervals fluctuating between 1.8s and 2.5s. In a real-world scenario, this unintentional irregularity acts similarly to "Jitter," making detection based purely on fixed time deltas more challenging. It reinforces the need to analyze the content (Headers/Size) alongside the timing.
+* **Beaconing & Jitter:** The captured traffic showed intervals fluctuating between 1.7s and 3.0s. In a real-world scenario, this unintentional irregularity acts similarly to "Jitter," making detection based purely on fixed time deltas more challenging. It reinforces the need to analyze the content (Headers/Size) alongside the timing.
 * **Header Anomalies:** Even when using standard ports (80/8080), the *content* of the HTTP headers (weird URIs, mismatching Content-Types) often betrays the presence of a C2 channel.
 * **Importance of SSL/TLS:** This analysis was possible because the payload used HTTP. In a real-world scenario, attackers use HTTPS (Port 443), requiring SSL inspection or JA3 fingerprinting to detect.
