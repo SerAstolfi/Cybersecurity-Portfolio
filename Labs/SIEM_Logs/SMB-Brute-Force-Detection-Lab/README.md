@@ -6,7 +6,7 @@
 ![Tools](https://img.shields.io/badge/Tools-Splunk%20%7C%20Sysmon%20%7C%20CrackMapExec-red)
 
 ## 📖 Executive Summary
-This project involves the design and deployment of a vulnerable Active Directory (AD) Home Lab to simulate an identity-based attack (SMB Brute Force/Password Spraying). The objective was to ingest endpoint telemetry into a SIEM (Splunk), analyze authentication failure logs, and engineer a custom detection rule to trigger alerts in real-time.
+This project involves the design and deployment of a vulnerable Active Directory (AD) Home Lab to simulate an identity-based attack (SMB Brute Force). The objective was to ingest endpoint telemetry into a SIEM (Splunk), analyze authentication failure logs, and engineer a custom detection rule to trigger alerts in real-time.
 
 This lab demonstrates proficiency in **Blue Team operations**, specifically:
 - Network segmentation and AD administration.
@@ -60,7 +60,7 @@ Standard Windows logging is often insufficient for advanced threat hunting. I en
 
 **Objective:** Attempt to compromise a user account via SMB Protocol without knowing the password.
 **Tool:** `CrackMapExec` (Kali Linux)
-**Technique:** Password Spraying / Brute Force (MITRE T1110.003)
+**Technique:** Password Guessing / Brute Force (MITRE T1110.001)
 
 I verified network connectivity between the Kali machine (`10.0.10.30`) and the Target (`10.0.10.20`).
 > ![Verifying Network Connectivity](./screenshots/04.verifying-connectivity.png)
@@ -72,7 +72,7 @@ crackmapexec smb 10.0.10.20 -u mrossi -p passlist.txt
 
 The tool generated rapid authentication attempts, resulting in multiple `STATUS_LOGON_FAILURE` responses.
 
-> ![SMB Password Spraying Attack with CrackMapExec](./screenshots/09.SMB-password-spraying.png)
+> ![SMB Password Guessing Attack with CrackMapExec](./screenshots/09.SMB-password-guessing.png)
 
 ---
 
@@ -110,8 +110,8 @@ To validate the engineering process, I re-executed the `crackmapexec` attack fro
 
 | Tactic | ID | Technique | Procedure |
 | :--- | :--- | :--- | :--- |
-| **Credential Access** | T1110.003 | Password Spraying | Attempting a list of passwords against the `mrossi` account via SMB. |
 | **Discovery** | T1087.002 | Account Discovery: Domain Account | Enumerating domain users to identify valid targets. |
+| **Credential Access** | T1110.001 | Password Guessing / Brute Force | Attempting a list of passwords against the `mrossi` account via SMB. |
 | **Lateral Movement** | T1021.002 | SMB/Windows Admin Shares | Using valid credentials to access the target system via port 445. |
 
 ---
